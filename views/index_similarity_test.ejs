@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <script src="/public/javascripts/jspsych-6.1.0/jspsych.js"></script>
+  <script src="/public/javascripts/jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+  <script src="/public/javascripts/jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
+  <script src="/public/javascripts/jspsych-6.1.0/plugins/jspsych-audio-keyboard-response-multiple.js"></script>
+  <script src="/public/javascripts/jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
+
+  <link href="/public/javascripts/jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+  <script>
+    let quiz = [
+      ['California borders the Pacific Ocean',true],
+      ['Diet coke contains no sugar',true],
+      ['Cardiologists study the heart',true],
+      ['John F Kennedy was assassinated',true],
+      ['Sushi is a type of Japanese food',true],
+      ['The Giants are a basketball team',false],
+      ['Spain is a country in Europe',true],
+      ['Monet was a painter',true],
+      ['Elvis Presley was a violinist',false],
+      ['San Francisco is the capital of California',false],
+      ['Fidel Castro was the leader of Brazil',false],
+      ['Babe Ruth was a football player',false],
+      ['San Diego is north of Los Angeles',false],
+      ['Germany fought in both World Wars',true],
+      ['Cactus plants have thorns',true],
+      ['Tacos are a type of Chinese food',false],
+      ['Texas is south of Minnesota',true],
+      ['Hillary Clinton ran for President',true],
+      ['Beef comes from cows',true],
+      ['Ben Franklin was an American president',true],
+      ['Mark Twain wrote Tom Sawyer',true],
+      ['Paris is a city in Spain',false],
+      ['Hellen Keller was blind',true],
+      ['Albert Einstein was a poet',false],
+      ['The Grand Canyon is in New York',false],
+      ['Neurologists study the liver',false],
+      ['San Diego is north of Los Angeles',false],
+      ['Mexicans speak Spanish',true],
+      ['Trumpets are stringed instruments',false],
+      ['Elvis Presley was a violinist',false],
+      ['Giraffes are taller than horses',true],
+      ['Rock n\' roll music has a slow rhythm',false],
+      ['Strawberries are red',true],
+      ['Boston is the capital of New York',false],
+      ['New York is the name of a city and a state',true],
+      ['The capital of France is Paris',true],
+      ['There are three primary colors',true],
+      ['Lithium is an element on the periodic table',true],
+    ]
+
+    <%
+      let url
+    if(study==2) url= "https://nyu.qualtrics.com/jfe/form/SV_do1V8EPAAstjRGZ"
+    else if(study==3) url = "https://nyu.qualtrics.com/jfe/form/SV_24gK3x77ndpKuYR"
+    else url = "https://nyu.qualtrics.com/jfe/form/SV_0pqqPNUKKwOU5wN"
+      let sub = subject.replace(/(\r\n|\n|\r)/gm,"")
+ %>
+    var run_experiement = function (current_block=1,no_of_blocks = 7){
+      run_block("<%=subject.replace(/(\r\n|\n|\r)/gm,"")%>",current_block,function () {
+        current_block +=1;
+        if(current_block<=no_of_blocks) run_experiement(current_block,no_of_blocks)
+        else window.location = "<%=url%>?sub=<%=sub%>&sona=<%=sona%>"
+      },sona="<%=sona%>",quiz.splice(0,4))
+    }
+  </script>
+
+</head>
+<body id="mybody" style="background-color: black;color:white; font-size: 45px;">
+
+</body>
+<script src="/public/javascripts/open_csv.js"></script>
+<script src="/public/javascripts/run_block.js"></script>
+<script>
+  var block_score
+
+
+
+
+  run_experiement()
+
+
+  document.addEventListener('keydown', fixation_blue);
+  document.addEventListener('keyup', fixation_white);
+
+  function fixation_blue(e) {
+    var element = document.getElementById("fixation_guy");
+    if (element!=null) element.style.color = "blue";
+  }
+  function fixation_white(e) {
+    var element = document.getElementById("fixation_guy");
+    if (element!=null) element.style.color = "white";
+  }
+
+
+</script>
+
+</html>

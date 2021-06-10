@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="public/javascripts/pdfobject.min.js"></script>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+
+</head>
+<body id="mybody">
+<div style="text-align: center">
+    <p>
+        This page is meant for persons under 18. If you are over 18, please click <a href="consent">here</a>.
+    </p>
+    <p>
+        <b>To consent to this form you must be over 18 and the legal guardian of the intended participant.</b><br><br>
+
+        Once you have reviewed the terms, you may consent by pressing the "I consent" button at the bottom of the screen.<br>
+    </p>
+    <p>You may also download a pdf copy of the consent form <a href="public/consent_forms/1357_AuditoryCognition_Parental%20Permission_SONA%20ONLINE_1hr_REMOTE_stamped.pdf">here</a></p>
+
+</div>
+<div style="text-align: center">
+    <object data="public/consent_forms/1357_AuditoryCognition_Parental%20Permission_SONA%20ONLINE_1hr_REMOTE_stamped.pdf" type="application/pdf" width="800px" height="800px">
+
+    </object>
+    <p>
+        If you DO NOT consent, you may close the browser window.<br>
+        If you do consent, press the button below
+    </p>
+    <input type="button" onclick="window.location='consented'" value="I consent">
+</div>
+
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <script src="/public/javascripts/jspsych-6.1.0/jspsych.js"></script>
+    <script src="/public/javascripts/jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="/public/javascripts/jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
+    <script src="/public/javascripts/jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
+    <script src="/public/javascripts/jspsych-6.1.0/plugins/jspsych-audio-keyboard-response-multiple.js"></script>
+
+    <script src="/public/javascripts/jspsych-6.1.0/plugins/jspsych-survey-likert.js"></script>
+    <script src="/public/javascripts/jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
+    <style id="jspsych-survey-likert-css">.jspsych-survey-likert-statement { display:block; font-size: 16px; padding-top: 40px; margin-bottom:10px; }.jspsych-survey-likert-opts { list-style:none; width:100%; margin:auto; padding:0 0 35px; display:block; font-size: 14px; line-height:1.1em; }.jspsych-survey-likert-opt-label { line-height: 1.1em; color: #444; }.jspsych-survey-likert-opts:before { content: ''; position:relative; top:11px; /*left:9.5%;*/ display:block; background-color:#efefef; height:4px; width:100%; }.jspsych-survey-likert-opts:last-of-type { border-bottom: 0; }.jspsych-survey-likert-opts li { display:inline-block; /*width:19%;*/ text-align:center; vertical-align: top; }.jspsych-survey-likert-opts li input[type=radio] { display:block; position:relative; top:0; left:50%; margin-left:-6px; }</style>
+    <style>
+        .animation_cont {
+            width: 800px;margin: auto;text-align: center;
+        }
+        .note_button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+    <link href="/public/javascripts/jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    <script src="public/javascripts/lottie.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.min.js"></script>
+    <style>
+        .p_30 {
+            font-size: 30px;
+            width: 1200px;
+            margin: auto;
+        }
+    </style>
+    <script>
+        <%
+        let url = "https://nyu.qualtrics.com/jfe/form/SV_0J2bl5hsBgltrgi"
+        let sub = subject.replace(/(\r\n|\n|\r)/gm,"")
+        %>
+        var experiment_data
+        var run_experiement = function (current_block,no_of_blocks){
+            run_block("<%=subject.replace(/(\r\n|\n|\r)/gm,"")%>",current_block,function () {
+                current_block +=1;
+                if(current_block<=no_of_blocks) run_experiement(current_block,no_of_blocks)
+                else window.location = "<%=url%>?sub=<%=sub%>&sona=<%=sona%>"
+            },sona="<%=sona%>")
+        }
+    </script>
+    <style>
+        .p_30 {
+            font-size: 30px;
+            width: 1200px;
+            margin: auto;
+        }
+        .btn-red {
+            background-color: red;
+            border-radius: 150px;
+            width: 150px;
+            height: 150px;
+            border-color: red;
+            color:white;
+        }
+        .btn-red:hover {
+            background-color: darkred;
+
+        }
+        .btn-blue {
+            background-color: blue;
+            border-radius: 150px;
+            width: 150px;
+            height: 150px;
+            border-color: blue;
+            color:white;
+        }
+        .btn-blue:hover {
+            background-color: darkblue;
+        }
+    </style>
+</head>
+<body id="mybody" style="background-color: black;color:white; font-size: 45px;">
+
+</body>
+<script src="/public/javascripts/open_csv.js"></script>
+<script src="/public/javascripts/run_block.js"></script>
+<script>
+    var block_score
+
+
+
+    document.addEventListener('keydown', fixation_blue);
+    document.addEventListener('keyup', fixation_white);
+
+    function fixation_blue(e) {
+        var element = document.getElementById("fixation_guy");
+        if (element!=null) element.style.color = "blue";
+    }
+    function fixation_white(e) {
+        var element = document.getElementById("fixation_guy");
+        if (element!=null) element.style.color = "white";
+    }
+
+
+    /*get experiment data*/
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+            if (xmlhttp.status == 200) {
+                experiment_data = JSON.parse(xmlhttp.responseText)
+                console.log(experiment_data)
+                run_experiement(0,experiment_data.length)
+            }
+            else alert('There seems to be an error');
+        }
+    };
+
+    xmlhttp.open("GET", "/pubstore/<%=subject.replace(/(\r\n|\n|\r)/gm,"")%>/csv/stimuli.json", true);
+    xmlhttp.send();
+
+</script>
+
+</html>
